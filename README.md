@@ -2,9 +2,9 @@
 
 this extension is WEB SHIORI
 
-1) get
-2) regist
-3) jump!
+1) regist
+2) jump!
+
 <!-- 
 ## Installation
 
