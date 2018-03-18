@@ -5,7 +5,7 @@ this extension is WEB SHIORI
 1) get
 2) regist
 3) jump!
-
+<!-- 
 ## Installation
 
 	$ npm install
@@ -71,7 +71,7 @@ The build tool also defines a variable named `process.env.NODE_ENV` in your scri
 if(process.env.NODE_ENV === 'development'){
   console.log('We are in development mode!');
 }
-```
+``` -->
 
 
 
