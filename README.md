@@ -2,6 +2,10 @@
 
 this extension is WEB SHIORI
 
+1) get
+2) regist
+3) jump!
+
 ## Installation
 
 	$ npm install

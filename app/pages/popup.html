@@ -2,18 +2,46 @@
 
 <head>
   <meta charset="utf-8">
-  <script src='scripts/lib/jquery-2.2.2.min.js'></script>
-  <script src='scripts/lib/Helper.js'></script>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../styles/popup.css">
 </head>
 
-<body style='width:250px; height:50px;'>
-  <div>栞リスト</div>
-  <div class='shiori-list-top'>
-    <div class='shiori-list' id='shiori-1'>1</div>
-    <button class='button' id='jump'>ジャンプ!:</button>
-    <button class='button' id='get'>取得:</button>
-    <button class='button' id='regist'>登録:</button>
-    <button class='button' id='top'>トップへ:</button>
+<body class="">
+  <div class="header-container center">
+    <header class="header flow-text">
+      <h4>WEB栞</h4>
+    </header>
+    <div class='border'></div>
   </div>
-  <script src='scripts/scroll-shiori.js'></script>
+  <div class="main container">
+    <div class="row center">
+      <!-- <div class='shiori-list' id='shiori-1' hidden>1</div> -->
+      <div class="col s12">
+        <i class="material-icons medium">local_library</i>
+        <div>
+          <a class="waves-effect waves-light btn" id='jump'>jump</a>
+        </div>
+      </div>
+
+      <!-- <button class='button' id='get'>取得:</button> -->
+      <div class="col s12">
+        <i class="material-icons medium">playlist_add</i>
+        <div>
+          <a class="waves-effect waves-light btn" id='regist'>regist</a>
+        </div>
+      </div>
+
+      <div class="col s12">
+        <i class="material-icons medium">vertical_align_top</i>
+        <div>
+          <a class="waves-effect waves-light btn" id='top'>to top</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"></div>
+
+  <script src='../scripts/scrollshiori.js'></script>
 </body>

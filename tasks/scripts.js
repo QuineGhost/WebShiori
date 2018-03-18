@@ -14,7 +14,7 @@ gulp.task('scripts', (cb) => {
   return gulp.src(['app/scripts/*.js', 'app/scripts/*.ts'])
     .pipe(plumber({
       // Webpack will log the errors
-      errorHandler () {}
+      errorHandler() { }
     }))
     .pipe(named())
     .pipe(gulpWebpack({
@@ -24,6 +24,10 @@ gulp.task('scripts', (cb) => {
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(ENV),
           'process.env.VENDOR': JSON.stringify(args.vendor)
+        }),
+        new webpack.ProvidePlugin({
+          $: 'jquery',
+          jQuery: 'jquery'
         })
       ].concat(args.production ? [
         new webpack.optimize.UglifyJsPlugin(),
@@ -46,16 +50,16 @@ gulp.task('scripts', (cb) => {
         ]
       }
     },
-    webpack,
-    (err, stats) => {
-      if (err) return
-      log(`Finished '${colors.cyan('scripts')}'`, stats.toString({
-        chunks: false,
-        colors: true,
-        cached: false,
-        children: false
+      webpack,
+      (err, stats) => {
+        if (err) return
+        log(`Finished '${colors.cyan('scripts')}'`, stats.toString({
+          chunks: false,
+          colors: true,
+          cached: false,
+          children: false
+        }))
       }))
-    }))
     .pipe(gulp.dest(`dist/${args.vendor}/scripts`))
     .pipe(gulpif(args.watch, livereload()))
 })
