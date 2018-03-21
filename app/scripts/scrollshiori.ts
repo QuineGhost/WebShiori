@@ -10,13 +10,11 @@ const chromeHelper = new ChromeHelper();
 
 // set scroll top value to localstorage
 $('#regist').on('click', () => {
-    chrome.storage.local.set({ registScrollTopValue: $('#shiori-1').text() }, () => { });
     chromeHelper.executeTabsQuery({ active: true }, 'regist', 'pushed regist button', 'registScrollTopValue');
 });
 
 // scroll to current registed scroll top
 $('#jump').on('click', () => {
-    chrome.storage.local.remove('shioriFlg', () => { });
     chromeHelper.executeTabsQuery({ active: true }, 'jump', 'pushed jump button', 'jumpScrollTopValue');
 });
 

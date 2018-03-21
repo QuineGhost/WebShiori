@@ -1,6 +1,6 @@
 chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    // if (request.flg === 'get') {
+  function (request: any, sender: chrome.runtime.MessageSender, sendResponse: any) {
+
     if (request.flg === 'regist') {
 
       // get scroll top value.
@@ -15,25 +15,64 @@ chrome.runtime.onMessage.addListener(
       }
 
       let scrollTop = $(window).scrollTop();
-      chrome.storage.local.set({ 'scrollTopValue': scrollTop }, function () {
-        console.log('complete localStorage value set');
+      let scrollTopValueByDomainList = new Array();
+
+      chrome.storage.local.get((keys) => {
+
+
+        // 今回の分も合わせてリスト作り直し
+        if (typeof keys !== 'undefined' && typeof keys.scrollTopValueByDomainList !== 'undefined') {
+
+          let index: number = 0;
+          for (let scrollTopValueByDomain of keys.scrollTopValueByDomainList) {
+
+            // 同じドメイン上書き
+            let flg: boolean = false;
+            if (scrollTopValueByDomain.domain === document.location.href.split('/')[2]) {
+              flg = true;
+            }
+
+            if (flg) {
+              keys.scrollTopValueByDomainList[index] = scrollTopValueByDomain;
+            } else {
+              scrollTopValueByDomainList.push(scrollTopValueByDomain);
+            }
+
+            index = index + 1;
+          }
+        }
+
+        scrollTopValueByDomainList.push({
+          domain: document.location.href.split('/')[2],
+          scrollTopValue: scrollTop
+        });
+
+        chrome.storage.local.set({ scrollTopValueByDomainList: scrollTopValueByDomainList }, function () {
+          console.log('complete localStorage value set');
+
+          let responseObj = {
+            msg: 'response',
+            scrollTop: scrollTop
+          };
+
+          sendResponse(responseObj);
+        });
       });
 
-      let responseObj = {
-        msg: 'response',
-        scrollTop: scrollTop
-      };
-
-      sendResponse(responseObj);
-
     } else if (request.flg === 'jump') {
-      // jump to shiori
 
-      let shiori = request.scrollTopValue;
+      let shiori = '';
+
+      for (let scrollTopValueByDomain of request.scrollTopValueByDomainList) {
+        if (scrollTopValueByDomain.domain === document.location.href.split('/')[2]) {
+          shiori = scrollTopValueByDomain.scrollTopValue;
+        }
+      }
 
       // 栞位置までscroll
       $('html, body').animate({ scrollTop: shiori }, 500);
 
+      // create shiori.
       let activeShioriElement = $('#shiori-border');
       if (typeof activeShioriElement !== 'undefined') {
         activeShioriElement.remove();
@@ -51,36 +90,11 @@ chrome.runtime.onMessage.addListener(
         opacity: '0.3'
       });
 
-      // chrome.storage.local.get('shioriFlg', function (result) {
-      //   if (Object.keys(result).length !== 0) {
-      //     return;
-      //   } else {
-
-      //     let activeShioriElement = $('#shiori-border');
-      //     if (typeof activeShioriElement !== 'undefined') {
-      //       activeShioriElement.remove();
-      //     }
-
-      //     let shioriElement = $('<img>', {
-      //       'id': 'shiori-border',
-      //       'src': chrome.extension.getURL('/images/shiori.png'),
-      //       'height': '50px'
-      //     }).appendTo('body');
-
-      //     $('#shiori-border').css({
-      //       top: parseInt(shiori),
-      //       position: 'absolute',
-      //       opacity: '0.3'
-      //     });
-
-      //     chrome.storage.local.set({ 'shioriFlg': true });
-      //   }
-      // });
-
     } else if (request.flg === 'top') {
-      // jump to bodytop
 
+      // jump to bodytop
       $('html, body').animate({ scrollTop: 0 }, 500);
+
     }
   }
 );

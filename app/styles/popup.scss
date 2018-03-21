@@ -2,15 +2,27 @@
 
 html, body {
     min-width:150px;
+    background-color: #E2E4E6;
+    font-family: "Roboto Mono",serif;
 }
 
-.border {
-    border-bottom: 1px solid #ddd;
-    padding: 0.5px;
-}
 .header h4 {
     letter-spacing: 2px;
     color:black;
     font-size: 36px;
-    padding: 0.8rem;
+    color: white;
+    margin:0;
+    padding: 0.5rem;
+}
+
+.border {
+    border-bottom: 1px solid #ddd;
+}
+
+.border {
+    margin-top: 0.1rem;
+}
+
+.header-top{
+    height: 0.8rem;
 }

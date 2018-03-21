@@ -18,18 +18,12 @@ class ChromeHelper {
 
         switch (flg) {
           case 'top':
+
             // topボタン押した場合、contents側には何も送信しない
             chrome.tabs.sendMessage(currentTab.id, requestObj, function (res: any) { });
             break;
           case 'regist':
-            // registボタン押した場合、localStorageにscrollTop格納
-            // chrome.storage.local.get(function (keys) {
-            //   chrome.tabs.sendMessage(
-            //     currentTab.id,
-            //     { scrollTopValue: keys.registScrollTopValue, flg: flg },
-            //     function (res: Response) { }
-            //   );
-            // });
+
             chrome.tabs.sendMessage(currentTab.id, requestObj, (res: any) => {
               console.log(res);
             });
@@ -40,33 +34,17 @@ class ChromeHelper {
             chrome.storage.local.get(function (keys) {
               chrome.tabs.sendMessage(
                 currentTab.id,
-                { scrollTopValue: keys.scrollTopValue, flg: flg },
-                function (res: Response) { }
+                {
+                  scrollTopValueByDomainList: keys.scrollTopValueByDomainList,
+                  flg: flg
+                },
+                function (res: Response) {
+
+                }
               );
             });
-            // chrome.tabs.sendMessage(currentTab.id, requestObj, function (res: any) {
-            //   scrollTopValue = res.scrollTop;
-            //   $('#shiori-1').text(scrollTopValue.toString());
-            // });
             break;
         }
-
-        // if (localStorageKeyName === 'lastScrollTopValue') {
-        //   chrome.tabs.sendMessage(currentTab.id, requestObj, function (res: any) {
-        //     scrollTopValue = res.scrollTop;
-        //     $('#shiori-1').text(scrollTopValue.toString());
-        //   });
-        // } else if (localStorageKeyName === 'registScrollTopValue') {
-
-        //   chrome.storage.local.get(function (keys) {
-        //     chrome.tabs.sendMessage(
-        //       currentTab.id,
-        //       { scrollTopValue: keys.registScrollTopValue, flg: flg },
-        //       function (res: Response) { }
-        //     );
-        //   });
-
-        // }
 
       } catch (e) {
         console.error(e.message);
