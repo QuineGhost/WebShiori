@@ -1,16 +1,27 @@
 @import "../../node_modules/materialize-css/sass/materialize";
+@import url('https://fonts.googleapis.com/css?family=Raleway|Saira+Extra+Condensed');
 
 html, body {
     min-width:150px;
-    background-color: #E2E4E6;
-    font-family: "Roboto Mono",serif;
+    background-color: #DCEDC1;
+    // font-family: "Roboto Mono",serif;
+    font-family: 'Saira Extra Condensed', sans-serif;
+
+}
+
+.header-top{
+    height: 0.8rem;
+    background-color: #FFAAA5;
+}
+
+.header {
+    background-color: #95E1D3;
 }
 
 .header h4 {
-    letter-spacing: 2px;
+    letter-spacing: 5px;
     color:black;
-    font-size: 36px;
-    color: white;
+    font-size: 24px;
     margin:0;
     padding: 0.5rem;
 }
@@ -23,6 +34,20 @@ html, body {
     margin-top: 0.1rem;
 }
 
-.header-top{
-    height: 0.8rem;
+.footer-container {
+    height: 30%;
+}
+
+.footer-top {
+    height: 2rem;
+    background-color: #FFD3B6;
+}
+
+.footer {
+    height: 1rem;
+    background-color: #FFAAA5;
+}
+
+.btn {
+    letter-spacing: 5px;
 }

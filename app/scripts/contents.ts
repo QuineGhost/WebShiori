@@ -69,8 +69,13 @@ chrome.runtime.onMessage.addListener(
         }
       }
 
-      // 栞位置までscroll
-      $('html, body').animate({ scrollTop: shiori }, 500);
+      // 栞位置までscroll(オートスクロールの場合は4000ms)
+      let bodyHeight: any = $('body').height();
+      if (parseInt(shiori, 10) > bodyHeight) {
+        $('html, body').animate({ scrollTop: shiori }, 4000);
+      } else {
+        $('html, body').animate({ scrollTop: shiori }, 500);
+      }
 
       // create shiori.
       let activeShioriElement = $('#shiori-border');
