@@ -1,23 +1,21 @@
 chrome.runtime.onMessage.addListener(
   function (request: any, sender: chrome.runtime.MessageSender, sendResponse: any) {
 
-    if (request.flg === 'regist') {
-
-      // regist scroll top value.
-      console.log('on message from ' + request.message);
-      regist(sendResponse);
-
-    } else if (request.flg === 'jump') {
-
-      // jump scroll top value.
-      console.log('on message from ' + request.message);
-      jump(request, sendResponse);
-
-    } else if (request.flg === 'top') {
-
-      // jump to bodytop
-      $('html, body').animate({ scrollTop: 0 }, 500);
-
+    switch (request.flg) {
+      case 'regist':
+        // regist scroll top value.
+        console.log('on message from ' + request.message);
+        regist(sendResponse);
+        break;
+      case 'jump':
+        // jump scroll top value.
+        console.log('on message from ' + request.message);
+        jump(request, sendResponse);
+        break;
+      case 'top':
+        // jump to bodytop
+        $('html, body').animate({ scrollTop: 0 }, 500);
+        break;
     }
   }
 );
