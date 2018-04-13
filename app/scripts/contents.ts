@@ -34,8 +34,7 @@ function regist(sendResponse: any) {
   let scrollTop = $(window).scrollTop();
   let scrollTopValueByDomainList = new Array();
 
-  const promise = new Promise((resolve, reject) => {
-
+  Promise.resolve().then(() => {
     // get shiori value
     chrome.storage.local.get((keys) => {
 
@@ -66,12 +65,11 @@ function regist(sendResponse: any) {
         scrollTopValue: scrollTop
       });
 
-      resolve('succeed');
+      return Promise.resolve(scrollTopValueByDomainList);
     });
-
   }).then((res) => {
 
-    chrome.storage.local.set({ scrollTopValueByDomainList: scrollTopValueByDomainList }, function () {
+    chrome.storage.local.set({ scrollTopValueByDomainList: res }, function () {
       console.log('complete localStorage value set');
 
       let responseObj = {
@@ -101,15 +99,14 @@ function jump(request: any, sendResponse: any) {
     }
   }
 
-  // 栞位置までscroll(オートスクロールの場合は4000ms)
+  // 栞位置までscroll(オートスクロールが必要な場合はheightに合わせて可変)
   let bodyHeight: any = $('body').height();
   if (parseInt(shiori, 10) > bodyHeight) {
-    $('html, body').animate({ scrollTop: shiori }, 4000);
+    $('html, body').animate({ scrollTop: shiori }, bodyHeight * 8);
   } else {
     $('html, body').animate({ scrollTop: shiori }, 500);
   }
 
-  // create shiori.
   let activeShioriElement = $('#shiori-border');
   if (typeof activeShioriElement !== 'undefined') {
     activeShioriElement.remove();
