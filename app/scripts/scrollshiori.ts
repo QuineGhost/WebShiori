@@ -11,6 +11,26 @@ const chromeHelper = new ChromeHelper();
 // set scroll top value to localstorage
 $('#regist').on('click', () => {
     chromeHelper.executeTabsQuery({ active: true }, 'regist', 'pushed regist button', 'registScrollTopValue');
+
+    if ($('#baroon').length > 0) {
+        return;
+    }
+    let $baroon = $('<div id="baroon">OK!</div>');
+    $baroon.css({
+        'z-index': '100',
+        'position': 'absolute',
+        'margin-top': '120px'
+    });
+
+    $baroon.insertAfter($('head'));
+    $baroon.hide().fadeIn(1000);
+
+
+    setTimeout(() => {
+        $('#baroon').fadeOut(2500, () => {
+            $('#baroon').remove();
+        });
+    }, 1000);
 });
 
 // scroll to current registed scroll top

@@ -102,7 +102,7 @@ function jump(request: any, sendResponse: any) {
   // 栞位置までscroll(オートスクロールが必要な場合はheightに合わせて可変)
   let bodyHeight: any = $('body').height();
   if (parseInt(shiori, 10) > bodyHeight) {
-    $('html, body').animate({ scrollTop: shiori }, bodyHeight * 8);
+    $('html, body').animate({ scrollTop: shiori }, bodyHeight * 2);
   } else {
     $('html, body').animate({ scrollTop: shiori }, 500);
   }
