@@ -27,15 +27,14 @@ chrome.runtime.onMessage.addListener(
 function regist(sendResponse: any) {
   //  要素が重なっているとなぜ複数リクエストされちゃって(?)、
   //  最終的に0で更新されてしまうから0のときは処理終了
-  if ($(window).scrollTop() === 0) {
-    return;
-  }
+  // if ($(window).scrollTop() === 0) {
+  //   return;
+  // }
 
   let scrollTop = $(window).scrollTop();
   let scrollTopValueByDomainList = new Array();
 
-  Promise.resolve().then(() => {
-    // get shiori value
+  new Promise((resolve, reject) => {
     chrome.storage.local.get((keys) => {
 
       // 今回の分も合わせてリスト作り直し
@@ -46,7 +45,7 @@ function regist(sendResponse: any) {
 
           // 同じドメイン上書き
           let flg: boolean = false;
-          if (scrollTopValueByDomain.domain === document.location.href.split('/')[2]) {
+          if (scrollTopValueByDomain.domain === document.location.href) {
             flg = true;
           }
 
@@ -61,28 +60,29 @@ function regist(sendResponse: any) {
       }
 
       scrollTopValueByDomainList.push({
-        domain: document.location.href.split('/')[2],
+        domain: document.location.href,
         scrollTopValue: scrollTop
       });
 
-      return Promise.resolve(scrollTopValueByDomainList);
+      resolve(scrollTopValueByDomainList);
     });
-  }).then((res) => {
+  })
+    .then((res) => {
 
-    chrome.storage.local.set({ scrollTopValueByDomainList: res }, function () {
-      console.log('complete localStorage value set');
+      chrome.storage.local.set({ scrollTopValueByDomainList: res }, function () {
+        console.log('complete localStorage value set');
 
-      let responseObj = {
-        msg: 'response',
-        scrollTop: scrollTop
-      };
+        let responseObj = {
+          msg: 'response',
+          scrollTop: scrollTop
+        };
 
-      sendResponse(responseObj);
+        sendResponse(responseObj);
+      });
+
+    }).catch((err) => {
+      console.error(err);
     });
-
-  }).catch((err) => {
-    console.error(err);
-  });
 }
 
 /**
@@ -94,7 +94,7 @@ function jump(request: any, sendResponse: any) {
   let shiori = '';
 
   for (let scrollTopValueByDomain of request.scrollTopValueByDomainList) {
-    if (scrollTopValueByDomain.domain === document.location.href.split('/')[2]) {
+    if (scrollTopValueByDomain.domain === document.location.href) {
       shiori = scrollTopValueByDomain.scrollTopValue;
     }
   }
@@ -121,7 +121,8 @@ function jump(request: any, sendResponse: any) {
   $('#shiori-border').css({
     top: parseInt(shiori),
     position: 'absolute',
-    opacity: '0.3'
+    opacity: '0.3',
+    'z-index': '1'
   });
 
 }
